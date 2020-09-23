@@ -1,7 +1,7 @@
 <script lang="ts">
-    export let type = 'primary'
-    export let flat = false
-    export let inverse = false
+    export let type: string = 'primary'
+    export let flat: boolean = false
+    export let inverse: boolean = false
 </script>
 
 <button class={type} class:flat={flat} class:inverse={inverse}>
