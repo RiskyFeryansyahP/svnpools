@@ -84,9 +84,11 @@
 
     .percent-a {
         background: rgba(217, 27, 66, 0.2);
+        border-left: 4px solid rgba(217, 27, 66, 0.2);
     }
 
     .percent-b {
         background: rgba(60, 196, 160, 0.2);
+        border-left: 4px solid rgba(60, 196, 160, 0.2);
     }
 </style>
