@@ -1,6 +1,7 @@
 <script lang="ts">
     // importing
     import { createEventDispatcher } from 'svelte'
+    import { poolStore } from '../store/store'
     import Button from '../shared/Button.svelte'
 
     let fields = {
@@ -57,7 +58,12 @@
                 ...fields,
             }
 
-            dispatch('addNewPool', pool)
+            // currentPools is pools data in store
+            poolStore.update(currentPools => {
+                return [...currentPools, pool]
+            })
+
+            dispatch('addNewPool')
         }
     }
 </script>
