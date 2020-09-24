@@ -28,28 +28,7 @@
 	}
 
 	const handleNewPool = (e: CustomEvent) => {
-		const pool = e.detail
-
-		pools = [...pools, pool]
-
 		activeItem = 'Current Pools'
-
-		console.log(pools)
-	}
-
-	const handleVote = (e: CustomEvent) => {
-		const {id, option} = e.detail
-
-		let newPools = [...pools]
-		let upVotedPool = pools.find(pool => pool.id === id )
-
-		if (option === 'a') {
-			upVotedPool.votesA++
-		} else if (option === 'b') {
-			upVotedPool.votesB++
-		}
-
-		pools = newPools
 	}
 </script>
 
@@ -57,7 +36,7 @@
 <main>
 	<Tabs {activeItem} {items} on:tabChange={tabChange} />
 	{#if activeItem === 'Current Pools'}
-		<PoolList pools={pools} on:vote={handleVote} />
+		<PoolList />
 	{:else if activeItem === 'Add New Pools'}
 		<PoolForm on:addNewPool={handleNewPool} />
 	{/if}
