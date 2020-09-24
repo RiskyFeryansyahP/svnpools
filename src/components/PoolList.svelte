@@ -1,14 +1,27 @@
 <script lang="ts">
     // importing
+    import { poolStore } from '../store/store'
     import PoolDetail from "./PoolDetail.svelte"
-    import type { PoolType } from "../shared/types/pool";
 
-    export let pools: PoolType = []
+    // let pools: PoolType = []
+
+    // poolStore.subscribe(data => {
+    //     pools = data
+    // })
+
+    // onMount(() => {
+    //     // lifecycle onmount when component is mounted
+    // })
+
+    // onDestroy(() => {
+    //     // lifecycle destroy when component is destroyed
+           // for unsub store
+    // })
 </script>
 
 <div class="pool-list">
-    {#each pools as pool}
-        <div> <PoolDetail pool={pool} on:vote /> </div>
+    {#each $poolStore as pool}
+        <div> <PoolDetail pool={pool} /> </div>
     {/each}
 </div>
 
