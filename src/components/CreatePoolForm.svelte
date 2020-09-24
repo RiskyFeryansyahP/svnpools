@@ -1,5 +1,6 @@
 <script lang="ts">
     // importing
+    import { createEventDispatcher } from 'svelte'
     import Button from '../shared/Button.svelte'
 
     let fields = {
@@ -13,6 +14,8 @@
         answerB: '',
     }
     let valid = false
+    
+    const dispatch = createEventDispatcher()
 
     const validationForm = (): boolean => {
         valid  = true
@@ -46,6 +49,15 @@
 
         if (valid) {
             console.log(fields)
+
+            const pool = {
+                id: Math.random(),
+                votesA: 0,
+                votesB: 0,
+                ...fields,
+            }
+
+            dispatch('addNewPool', pool)
         }
     }
 </script>
