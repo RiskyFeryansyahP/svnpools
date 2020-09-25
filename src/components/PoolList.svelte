@@ -1,6 +1,8 @@
 <script lang="ts">
     // importing
     import { poolStore } from '../store/store'
+    import { fade, scale } from 'svelte/transition'
+    import { flip } from 'svelte/animate'
     import PoolDetail from "./PoolDetail.svelte"
 
     // let pools: PoolType = []
@@ -20,8 +22,10 @@
 </script>
 
 <div class="pool-list">
-    {#each $poolStore as pool}
-        <div> <PoolDetail pool={pool} /> </div>
+    {#each $poolStore as pool (pool.id)}
+        <div in:fade out:scale|local animate:flip={{duration: 500}}> 
+            <PoolDetail pool={pool} /> 
+        </div>
     {/each}
 </div>
 
