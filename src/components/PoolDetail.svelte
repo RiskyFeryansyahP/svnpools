@@ -2,7 +2,9 @@
     // importing
     import { createEventDispatcher } from 'svelte'
     import { poolStore } from '../store/store'
+    import { tweened } from 'svelte/motion'
     import Card from '../shared/Card.svelte'
+    import Button from '../shared/Button.svelte'
 
     // import type
     import type { Pool } from '../shared/types/pool'
@@ -13,8 +15,15 @@
 
     //reactive value
     $: totalValues = pool.votesA + pool.votesB
-    $: percentA = 100 / totalValues * pool.votesA
-    $: percentB = 100 / totalValues * pool.votesB
+    $: percentA = 100 / totalValues * pool.votesA || 0
+    $: percentB = 100 / totalValues * pool.votesB || 0
+
+    // tweened percentages
+    const tweenedA = tweened(0)
+    const tweenedB = tweened(0)
+
+    $: tweenedA.set(percentA)
+    $: tweenedB.set(percentB)
 
     const handleVote = (option: string, id: number) => {
         poolStore.update(currentPools => {
@@ -30,6 +39,14 @@
             return newPools
         })
     }
+
+    const handleDeletePool = (id: number) => {
+        poolStore.update(currentPools => {
+            let newPools = currentPools.filter(pool => pool.id !== id)
+
+            return newPools
+        })
+    }
 </script>
 
 <Card>
@@ -37,12 +54,15 @@
         <h3> {pool.question} </h3>
         <p> Total Votes: { totalValues } </p>
         <div class="answer" on:click={() => handleVote('a', pool.id)}>
-            <div class="percent percent-a" style="width: {percentA}%"></div>
+            <div class="percent percent-a" style="width: {$tweenedA}%"></div>
             <span> {pool.answerA} ({ pool.votesA })</span>
         </div>
         <div class="answer" on:click={() => handleVote('b', pool.id)}>
-            <div class="percent percent-b" style="width: {percentB}%"></div>
+            <div class="percent percent-b" style="width: {$tweenedB}%"></div>
             <span> {pool.answerB} ({ pool.votesB })</span>
+        </div>
+        <div class="delete">
+            <Button flat={true} inverse={true} on:click={() => handleDeletePool(pool.id)} >Delete</Button>
         </div>
     </div>
 </Card>
@@ -90,5 +110,11 @@
     .percent-b {
         background: rgba(60, 196, 160, 0.2);
         border-left: 4px solid rgba(60, 196, 160, 0.2);
+    }
+
+    .delete {
+        margin-top: 30px;
+        text-align: center;
+        cursor: pointer;
     }
 </style>
